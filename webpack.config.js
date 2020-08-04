@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const postcssNormalize = require("postcss-normalize");
 
 module.exports = (env, argv) => ({
   entry: "./src/index",
@@ -22,7 +23,17 @@ module.exports = (env, argv) => ({
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [
+          "style-loader",
+          { loader: "css-loader", options: { importLoaders: 1 } },
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss",
+              plugins: () => [postcssNormalize()],
+            },
+          },
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
@@ -31,13 +42,18 @@ module.exports = (env, argv) => ({
       },
       {
         test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "fonts/",
+            },
+          },
         ],
       },
     ],
