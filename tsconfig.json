@@ -8,5 +8,6 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "src"
-  }
+  },
+  "include": ["src/components", "custom.d.ts"]
 }

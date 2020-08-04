@@ -46,3 +46,7 @@ $shadow-2: 0 1px 2px 0 $color-blue-3;
 * {
   font-family: "Roboto Regular", "sans-serif";
 }
+
+.marker {
+  transform: translate3d(-50%, -100%, 0);
+}

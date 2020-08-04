@@ -38,14 +38,18 @@ module.exports = (env, argv) => ({
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
         exclude: /node_modules/,
-        use: ["file-loader?name=[name].[ext]"],
+        loader: "file-loader",
+        options: {
+          name: "[path][name].[ext]",
+          outputPath: "assets/",
+        },
       },
       {
         test: /\.s[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
             loader: "file-loader",
