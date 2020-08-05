@@ -57,6 +57,7 @@ const Search: FunctionComponent = () => {
           onClick={() => {
             console.log("submit");
           }}
+          disabled={!(pickup.marker && dropoff.marker)}
         >
           Create job
         </button>

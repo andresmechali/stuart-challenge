@@ -78,6 +78,7 @@ const reducer = (state: typeof initialState, action: Action) => {
           ...state[action.addressType],
           searched: true,
           found: false,
+          marker: null,
         },
       };
     default:
