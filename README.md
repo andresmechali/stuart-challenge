@@ -43,3 +43,4 @@ The application should automatically open in [`http://localhost:8080`](http://lo
 - Split commits into smaller and more meaningful ones
 - Split styles into multiple files and use better naming for classes,
   or add styles-components
+- Change map position and zoom based on results
