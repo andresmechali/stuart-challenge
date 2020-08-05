@@ -53,14 +53,20 @@ $shadow-2: 0 1px 2px 0 $color-blue-3;
   display: flex;
   align-items: center;
   padding: 0 $size-medium;
-  top: $size-large;
-  right: $size-large;
   border-radius: $size-small;
   height: 40px;
   background-color: $color-gray-4;
   box-shadow: $shadow-1;
   color: $color-white;
   cursor: pointer;
+  @media (min-width: 769px) {
+    top: $size-large;
+    right: $size-large;
+  }
+  @media (max-width: 768px) {
+    bottom: $size-large;
+    left: $size-large;
+  }
 }
 
 .button-create-job {

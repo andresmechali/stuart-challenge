@@ -20,6 +20,7 @@ const Toaster: FunctionComponent = () => {
   if (!showToaster) {
     return null;
   }
+
   return (
     <div
       className="toaster"
