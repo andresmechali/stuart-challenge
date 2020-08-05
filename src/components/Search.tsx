@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useContext } from "react";
 
-import Badge from "./Badge";
+import Badge from "components/Badge";
 
-import { getGeoCode } from "../api/endpoints";
+import { getGeoCode } from "api/endpoints";
+
 import { AddressType } from "../types";
 
 import { setAddress, setError, setMarker, Store } from "../store";

@@ -11,15 +11,18 @@ module.exports = (env, argv) => ({
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
+    alias: {
+      components: path.resolve(__dirname, "src/components/"),
+      api: path.resolve(__dirname, "src/api/"),
+      assets: path.resolve(__dirname, "src/assets/"),
+    },
   },
   module: {
     rules: [
       {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
+        use: ["babel-loader", "eslint-loader"],
       },
       {
         test: /\.css$/,

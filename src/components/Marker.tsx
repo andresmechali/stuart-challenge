@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import pickUpMarker from "../assets/pickUpMarker.svg";
-import dropOffMarker from "../assets/dropOffMarker.svg";
-import { AddressType } from "../types";
+import pickUpMarker from "assets/img/pickUpMarker.svg";
+import dropOffMarker from "assets/img/dropOffMarker.svg";
+import { AddressType } from "types";
 
 export type MarkerProps = {
   lat: number;

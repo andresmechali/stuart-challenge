@@ -3,12 +3,12 @@ import React, { FunctionComponent, useContext, useMemo } from "react";
 import { Address, AddressType } from "../types";
 import { Store } from "../store";
 
-import dropOffBadgeBlank from "../assets/dropOffBadgeBlank.svg";
-import dropOffBadgeError from "../assets/dropOffBadgeError.svg";
-import dropOffBadgePresent from "../assets/dropOffBadgePresent.svg";
-import pickUpBadgeBlank from "../assets/pickUpBadgeBlank.svg";
-import pickUpBadgeError from "../assets/pickUpBadgeError.svg";
-import pickUpBadgePresent from "../assets/pickUpBadgePresent.svg";
+import dropOffBadgeBlank from "../assets/img/dropOffBadgeBlank.svg";
+import dropOffBadgeError from "../assets/img/dropOffBadgeError.svg";
+import dropOffBadgePresent from "../assets/img/dropOffBadgePresent.svg";
+import pickUpBadgeBlank from "../assets/img/pickUpBadgeBlank.svg";
+import pickUpBadgeError from "../assets/img/pickUpBadgeError.svg";
+import pickUpBadgePresent from "../assets/img/pickUpBadgePresent.svg";
 
 interface BadgeProps {
   addressType: AddressType;
@@ -25,20 +25,20 @@ const Badge: FunctionComponent<BadgeProps> = ({ addressType }) => {
       case "pickup":
         if (!address.searched) {
           return pickUpBadgeBlank;
-        } else if (address.found) {
-          return pickUpBadgePresent;
-        } else {
-          return pickUpBadgeError;
         }
+        if (address.found) {
+          return pickUpBadgePresent;
+        }
+        return pickUpBadgeError;
       case "dropoff":
       default:
         if (!address.searched) {
           return dropOffBadgeBlank;
-        } else if (address.found) {
-          return dropOffBadgePresent;
-        } else {
-          return dropOffBadgeError;
         }
+        if (address.found) {
+          return dropOffBadgePresent;
+        }
+        return dropOffBadgeError;
     }
   }, [address.searched, address.found]);
 

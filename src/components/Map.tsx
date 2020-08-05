@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useContext, useEffect } from "react";
+import React, { FunctionComponent, useContext } from "react";
 import GoogleMapReact from "google-map-react";
 
-import Marker from "./Marker";
+import Marker from "components/Marker";
 
 import { Store } from "../store";
 
