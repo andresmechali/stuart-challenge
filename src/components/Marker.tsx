@@ -1,16 +1,21 @@
 import React, { FunctionComponent } from "react";
 
-import dropOffMarker from "../assets/dropOffMarker.svg";
 import pickUpMarker from "../assets/pickUpMarker.svg";
+import dropOffMarker from "../assets/dropOffMarker.svg";
+import { AddressType } from "../types";
 
-interface DropOffBadgeProps {
+export type MarkerProps = {
   lat: number;
   lng: number;
-  type: "pickup" | "dropoff";
-}
-
-const Marker: FunctionComponent<DropOffBadgeProps> = () => {
-  return <img src={dropOffMarker} alt="marker" className="marker" />;
+  type: AddressType;
 };
+
+const Marker: FunctionComponent<MarkerProps> = ({ type }) => (
+  <img
+    src={type === "pickup" ? pickUpMarker : dropOffMarker}
+    alt={`${type} marker`}
+    className="marker"
+  />
+);
 
 export default Marker;

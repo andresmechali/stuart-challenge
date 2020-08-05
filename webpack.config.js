@@ -65,7 +65,7 @@ module.exports = (env, argv) => ({
   devServer: {
     historyApiFallback: true,
   },
-  devtool: argv.mode === "development" ? "eval-source-map" : false,
+  devtool: argv && argv.mode === "development" ? "eval-source-map" : false,
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",

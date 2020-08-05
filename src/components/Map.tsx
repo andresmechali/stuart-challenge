@@ -1,20 +1,39 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 
 import Marker from "./Marker";
 
-const Map: FunctionComponent<any> = ({
-  center = { lat: 41.396578, lng: 2.162695 },
-  zoom = 14,
-}) => {
+import { Store } from "../store";
+
+const DEFAULT_CENTER = { lat: 48.86982, lng: 2.334579 };
+const DEFAULT_ZOOM = 14;
+
+// 29 rue du 4 septembre
+// 15 rue de bourgogne
+const Map: FunctionComponent = () => {
+  const { state } = useContext(Store);
+  const { pickup, dropoff } = state;
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyCCWmW5w-5iuKcWc_YlnBCSmfB3UHNLnLE" }}
-        defaultCenter={center}
-        defaultZoom={zoom}
+        defaultCenter={DEFAULT_CENTER}
+        defaultZoom={DEFAULT_ZOOM}
       >
-        <Marker lat={59.955555} lng={30.337777} type="pickup" />
+        {pickup && pickup.marker && (
+          <Marker
+            lat={pickup.marker.lat}
+            lng={pickup.marker.lng}
+            type="pickup"
+          />
+        )}
+        {dropoff && dropoff.marker && (
+          <Marker
+            lat={dropoff.marker.lat}
+            lng={dropoff.marker.lng}
+            type="dropoff"
+          />
+        )}
       </GoogleMapReact>
     </div>
   );

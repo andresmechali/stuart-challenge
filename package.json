@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@types/node": "^14.0.27",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.0",
     "file-loader": "^6.0.0",
@@ -37,7 +38,6 @@
   },
   "dependencies": {
     "@types/google-map-react": "^1.1.8",
-    "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
     "@types/react-dom": "^16.9.8",
     "google-map-react": "^2.0.4",

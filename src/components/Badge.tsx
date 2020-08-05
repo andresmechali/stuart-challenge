@@ -1,4 +1,7 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext, useMemo } from "react";
+
+import { Address, AddressType } from "../types";
+import { Store } from "../store";
 
 import dropOffBadgeBlank from "../assets/dropOffBadgeBlank.svg";
 import dropOffBadgeError from "../assets/dropOffBadgeError.svg";
@@ -8,12 +11,38 @@ import pickUpBadgeError from "../assets/pickUpBadgeError.svg";
 import pickUpBadgePresent from "../assets/pickUpBadgePresent.svg";
 
 interface BadgeProps {
-  type: "pickup" | "dropoff";
-  variant: "blank" | "error" | "present";
+  addressType: AddressType;
 }
 
-const Badge: FunctionComponent<BadgeProps> = ({ type, variant }) => {
-  return <img src={dropOffBadgeBlank} alt="badge" />;
+const Badge: FunctionComponent<BadgeProps> = ({ addressType }) => {
+  const { state } = useContext(Store);
+  const { pickup, dropoff } = state;
+
+  const address: Address = addressType === "pickup" ? pickup : dropoff;
+
+  const show = useMemo(() => {
+    switch (addressType) {
+      case "pickup":
+        if (!address.searched) {
+          return pickUpBadgeBlank;
+        } else if (address.found) {
+          return pickUpBadgePresent;
+        } else {
+          return pickUpBadgeError;
+        }
+      case "dropoff":
+      default:
+        if (!address.searched) {
+          return dropOffBadgeBlank;
+        } else if (address.found) {
+          return dropOffBadgePresent;
+        } else {
+          return dropOffBadgeError;
+        }
+    }
+  }, [address.searched, address.found]);
+
+  return <img className="badge" src={show} alt="badge" />;
 };
 
 export default Badge;
