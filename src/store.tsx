@@ -5,48 +5,23 @@ import React, {
   useReducer,
 } from "react";
 
-import { Address, Action, AddressType } from "./types";
+import { Address, Action } from "./types";
 
 const initialAddress: Address = {
   searched: false,
   found: false,
   text: "",
+  marker: null,
 };
 
 const initialState: any = {
   pickup: initialAddress,
   dropoff: initialAddress,
+  isLoading: false,
+  showToaster: false,
 };
 
 export const Store = createContext(initialState);
-
-export const setAddress = (addressType: "pickup" | "dropoff", text: string) => {
-  return {
-    type: "SET_ADDRESS",
-    addressType,
-    text,
-  };
-};
-
-export const setMarker = (
-  addressType: AddressType,
-  lat: number,
-  lng: number
-) => {
-  return {
-    type: "SET_MARKER",
-    addressType,
-    lat,
-    lng,
-  };
-};
-
-export const setError = (addressType: AddressType) => {
-  return {
-    type: "SET_ERROR",
-    addressType,
-  };
-};
 
 const reducer = (state: typeof initialState, action: Action) => {
   switch (action.type) {
@@ -81,6 +56,33 @@ const reducer = (state: typeof initialState, action: Action) => {
           marker: null,
         },
       };
+    case "RESET_ADDRESSES":
+      return {
+        ...state,
+        pickup: initialAddress,
+        dropoff: initialAddress,
+      };
+    case "CREATE_JOB_START":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "CREATE_JOB_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        showToaster: true,
+      };
+    case "CREATE_JOB_ERROR":
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case "HIDE_TOASTER":
+      return {
+        ...state,
+        showToaster: false,
+      };
     default:
       return state;
   }
@@ -98,3 +100,5 @@ export const StoreProvider: FunctionComponent<{ children: any }> = ({
     <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>
   );
 };
+
+export default Store;

@@ -6,8 +6,8 @@ module.exports = (env, argv) => ({
   entry: "./src/index",
   output: {
     path: path.join(__dirname, "/dist"),
-    filename: "bundle.js",
-    publicPath: "/",
+    filename: "./bundle.js",
+    publicPath: "",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -15,6 +15,7 @@ module.exports = (env, argv) => ({
       components: path.resolve(__dirname, "src/components/"),
       api: path.resolve(__dirname, "src/api/"),
       assets: path.resolve(__dirname, "src/assets/"),
+      public: path.resolve(__dirname, "./public/"),
     },
   },
   module: {

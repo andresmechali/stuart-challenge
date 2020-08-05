@@ -1,26 +1,96 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
+import debounce from "lodash.debounce";
 
 import Badge from "components/Badge";
 
-import { getGeoCode } from "api/endpoints";
+import { getGeoCodeRequest, createJobRequest } from "api/endpoints";
+import { AddressType } from "types";
+import { Store } from "../store";
+import {
+  createJobError,
+  createJobStart,
+  createJobSuccess,
+  resetAddresses,
+  setAddress,
+  setError,
+  setMarker,
+} from "../actions";
 
-import { AddressType } from "../types";
-
-import { setAddress, setError, setMarker, Store } from "../store";
-
+/**
+ * Renders a search box on the top left of the screen
+ * Includes input boxes for searching pickup an dropoff addresses,
+ * as well as a button for creating jobs
+ */
 const Search: FunctionComponent = () => {
   const { state, dispatch } = useContext(Store);
-  const { pickup, dropoff } = state;
+  const { pickup, dropoff, isLoading } = state;
 
-  const getCode = (addressType: AddressType, address: string) => {
-    getGeoCode(address).then((res) => {
-      if (res.address) {
+  /**
+   * Gets geocode for a given address and a given type
+   * When found, sets a marker in the returned geolocation.
+   * Otherwise, sets the corresponding marker to an error state.
+   * @param addressType
+   * @param address
+   */
+  const getCode = (addressType: AddressType, address: string): void => {
+    getGeoCodeRequest(address)
+      .then((res) => {
         dispatch(setMarker(addressType, res.latitude, res.longitude));
-      } else {
+      })
+      .catch(() => {
         dispatch(setError(addressType));
-      }
-    });
+      });
   };
+
+  /**
+   * Debounced version of getCode, which triggers after 500ms without typing
+   */
+  const getCodeDebounced = useCallback(
+    debounce((addressType: AddressType, address: string) => {
+      getCode(addressType, address);
+    }, 500),
+    []
+  );
+
+  /**
+   * Sends request for creating job
+   * While loading, button is disabled and set to a loading state
+   * On success, it displays a toaster
+   */
+  const createJob = (): void => {
+    dispatch(createJobStart());
+    createJobRequest(pickup.text, dropoff.text)
+      .then(() => {
+        dispatch(createJobSuccess());
+        dispatch(resetAddresses());
+      })
+      .catch(() => {
+        dispatch(createJobError());
+      });
+  };
+
+  /**
+   * Gets geocode for pickup address after 500 ms of not typing
+   */
+  useEffect(() => {
+    if (pickup.text) {
+      getCodeDebounced("pickup", pickup.text);
+    }
+  }, [pickup.text]);
+
+  /**
+   * Gets geocode for dropoff address after 500 ms of not typing
+   */
+  useEffect(() => {
+    if (dropoff.text) {
+      getCodeDebounced("dropoff", dropoff.text);
+    }
+  }, [dropoff.text]);
 
   return (
     <div className="search-container">
@@ -35,6 +105,8 @@ const Search: FunctionComponent = () => {
             dispatch(setAddress("pickup", e.target.value));
           }}
           onBlur={() => getCode("pickup", pickup.text)}
+          aria-required
+          aria-label="Pick up address"
         />
       </div>
       <div className="flex-row">
@@ -48,18 +120,20 @@ const Search: FunctionComponent = () => {
             dispatch(setAddress("dropoff", e.target.value));
           }}
           onBlur={() => getCode("dropoff", dropoff.text)}
+          aria-required
+          aria-label="Drop off address"
         />
       </div>
       <div className="flex-row">
         <button
-          className="button"
+          className="button-create-job"
           type="button"
-          onClick={() => {
-            console.log("submit");
-          }}
-          disabled={!(pickup.marker && dropoff.marker)}
+          onClick={createJob}
+          disabled={!(pickup.marker && dropoff.marker) || isLoading}
+          aria-disabled={!(pickup.marker && dropoff.marker) || isLoading}
+          aria-label="Create job"
         >
-          Create job
+          {!isLoading ? "Create job" : "Creating..."}
         </button>
       </div>
     </div>

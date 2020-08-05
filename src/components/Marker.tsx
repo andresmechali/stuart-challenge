@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import pickUpMarker from "assets/img/pickUpMarker.svg";
-import dropOffMarker from "assets/img/dropOffMarker.svg";
 import { AddressType } from "types";
+import pickUpMarker from "../assets/img/pickUpMarker.svg";
+import dropOffMarker from "../assets/img/dropOffMarker.svg";
 
 export type MarkerProps = {
   lat: number;
@@ -10,6 +10,10 @@ export type MarkerProps = {
   type: AddressType;
 };
 
+/**
+ * Marker to display pickup or dropoff location in the map
+ * @param type
+ */
 const Marker: FunctionComponent<MarkerProps> = ({ type }) => (
   <img
     src={type === "pickup" ? pickUpMarker : dropOffMarker}

@@ -6,9 +6,6 @@
     "node": true,
     "browser": true
   },
-  "ecmaFeatures": {
-    "jsx": true
-  },
   "rules": {
     "import/extensions": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],

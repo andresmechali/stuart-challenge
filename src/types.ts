@@ -1,14 +1,3 @@
-export type GeoCodeResponse = {
-  address: string;
-  latitude: number;
-  longitude: number;
-};
-
-export type GeoCode = {
-  lat: number;
-  lng: number;
-};
-
 export type Address = {
   searched: boolean;
   found: boolean;
@@ -18,11 +7,6 @@ export type Address = {
     lng: number;
   } | null;
 };
-
-export interface StoreState {
-  pickUpAddress: Address;
-  dropOffAddress: Address;
-}
 
 export type AddressType = "pickup" | "dropoff";
 
@@ -34,4 +18,9 @@ export type Action =
       lat: number;
       lng: number;
     }
-  | { type: "SET_ERROR"; addressType: AddressType };
+  | { type: "SET_ERROR"; addressType: AddressType }
+  | { type: "RESET_ADDRESSES" }
+  | { type: "CREATE_JOB_START" }
+  | { type: "CREATE_JOB_SUCCESS" }
+  | { type: "CREATE_JOB_ERROR" }
+  | { type: "HIDE_TOASTER" };
