@@ -45,3 +45,4 @@ The application should automatically open in [`http://localhost:8080`](http://lo
   or add styles-components
 - Change map position and zoom based on results
 - Use ImmutableJS for a cleaner handling of reducers
+- Hide Google Maps API key
