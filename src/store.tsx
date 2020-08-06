@@ -46,6 +46,16 @@ const reducer = (state: typeof initialState, action: Action) => {
           },
         },
       };
+    case "REMOVE_MARKER":
+      return {
+        ...state,
+        [action.addressType]: {
+          ...state[action.addressType],
+          marker: null,
+          searched: false,
+          found: false,
+        },
+      };
     case "SET_ERROR":
       return {
         ...state,

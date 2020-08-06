@@ -1,25 +1,25 @@
 import { AddressType } from "./types";
 
-export const setAddress = (addressType: "pickup" | "dropoff", text: string) => {
-  return {
-    type: "SET_ADDRESS",
-    addressType,
-    text,
-  };
-};
+export const setAddress = (
+  addressType: "pickup" | "dropoff",
+  text: string
+) => ({ type: "SET_ADDRESS", addressType, text });
 
 export const setMarker = (
   addressType: AddressType,
   lat: number,
   lng: number
-) => {
-  return {
-    type: "SET_MARKER",
-    addressType,
-    lat,
-    lng,
-  };
-};
+) => ({
+  type: "SET_MARKER",
+  addressType,
+  lat,
+  lng,
+});
+
+export const removeMarker = (addressType: AddressType) => ({
+  type: "REMOVE_MARKER",
+  addressType,
+});
 
 export const setError = (addressType: AddressType) => ({
   type: "SET_ERROR",

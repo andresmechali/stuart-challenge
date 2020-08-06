@@ -18,6 +18,7 @@ export type Action =
       lat: number;
       lng: number;
     }
+  | { type: "REMOVE_MARKER"; addressType: AddressType }
   | { type: "SET_ERROR"; addressType: AddressType }
   | { type: "RESET_ADDRESSES" }
   | { type: "CREATE_JOB_START" }

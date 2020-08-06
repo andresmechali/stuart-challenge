@@ -15,6 +15,7 @@ import {
   createJobError,
   createJobStart,
   createJobSuccess,
+  removeMarker,
   resetAddresses,
   setAddress,
   setError,
@@ -32,19 +33,24 @@ const Search: FunctionComponent = () => {
 
   /**
    * Gets geocode for a given address and a given type
+   * If address is blank, remove marker
    * When found, sets a marker in the returned geolocation.
    * Otherwise, sets the corresponding marker to an error state.
    * @param addressType
    * @param address
    */
   const getCode = (addressType: AddressType, address: string): void => {
-    getGeoCodeRequest(address)
-      .then((res) => {
-        dispatch(setMarker(addressType, res.latitude, res.longitude));
-      })
-      .catch(() => {
-        dispatch(setError(addressType));
-      });
+    if (address) {
+      getGeoCodeRequest(address)
+        .then((res) => {
+          dispatch(setMarker(addressType, res.latitude, res.longitude));
+        })
+        .catch(() => {
+          dispatch(setError(addressType));
+        });
+    } else {
+      dispatch(removeMarker(addressType));
+    }
   };
 
   /**
